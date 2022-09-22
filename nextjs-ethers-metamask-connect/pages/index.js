@@ -16,7 +16,7 @@ export default function Home() {
   async function connect() {
     if (typeof window.ethereum !== "undefined") {
       try {
-        await ethereum.request({ method: "eth_requestAccounts" });
+        await window.ethereum.request({ method: "eth_requestAccounts" });
         setIsConnected(true);
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         setSigner(provider.getSigner());
@@ -121,8 +121,10 @@ export default function Home() {
         },
       ];
       const contract = new ethers.Contract(contractAddress, abi, signer);
+      console.log(contract)
       try {
-        await contract.store(42);
+        const tx = await contract.store(42);
+        console.log(tx);
       } catch (error) {
         console.log(error);
       }
